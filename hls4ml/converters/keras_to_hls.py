@@ -171,7 +171,7 @@ def keras_to_hls(yamlConfig):
             if keras_layer["class_name"] == 'Flatten':
                 output_shapes[keras_layer['name']] = [input_shapes[0][0], np.prod(input_shapes[0][1:])]
             else:
-                output_shapes[keras_layer['name']] = input_shapes[0]
+                output_shapes[keras_layer['config']['name']] = input_shapes[0]
 
             continue
 
