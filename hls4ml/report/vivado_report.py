@@ -122,6 +122,14 @@ def parse_vivado_report(hls_dir):
 
     report = {}
 
+    hls_file = hls_dir + 'vivado_hls.log'
+    if os.path.isfile(sim_file):
+        hls_results = []
+        with open(hls_file, 'r') as f:
+            for line in f.readlines():
+                hls_results.append([r for r in line.split()])
+        report['HLSResults'] = hls_results
+
     sim_file = hls_dir + '/tb_data/csim_results.log'
     if os.path.isfile(sim_file):
         csim_results = []
