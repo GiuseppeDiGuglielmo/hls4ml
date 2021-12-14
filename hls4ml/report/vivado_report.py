@@ -96,7 +96,7 @@ def _show_cosim_report(cosim_file):
         print('CO-SIMULATION RESULT:')
         print(f.read())
 
-def parse_vivado_report(hls_dir):
+def parse_vivado_report(hls_dir, vivado_return_value):
     if not os.path.exists(hls_dir):
         print('Path {} does not exist. Exiting.'.format(hls_dir))
         return
@@ -122,13 +122,22 @@ def parse_vivado_report(hls_dir):
 
     report = {}
 
-    hls_file = hls_dir + 'vivado_hls.log'
-    if os.path.isfile(sim_file):
-        hls_results = []
+    report['ReturnValue'] = vivado_return_value
+
+    hls_file = hls_dir + '/vivado_hls.log'
+    if os.path.isfile(hls_file):
+        hls_errors = ''
         with open(hls_file, 'r') as f:
             for line in f.readlines():
-                hls_results.append([r for r in line.split()])
-        report['HLSResults'] = hls_results
+                if 'ERROR' in line or 'Killed' in line:
+                    hls_errors += line
+            report['HLSErrors'] = hls_errors
+
+        #hls_results = []
+        #with open(hls_file, 'r') as f:
+        #    for line in f.readlines():
+        #        hls_results.append([r for r in line.split()])
+        #report['HLSResults'] = hls_results
 
     sim_file = hls_dir + '/tb_data/csim_results.log'
     if os.path.isfile(sim_file):

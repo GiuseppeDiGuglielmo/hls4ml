@@ -734,9 +734,9 @@ class HLSModel(object):
 
         curr_dir = os.getcwd()
         os.chdir(self.config.get_output_dir())
-        os.system('vivado_hls -f build_prj.tcl "reset={reset} csim={csim} synth={synth} cosim={cosim} validation={validation} export={export} vsynth={vsynth}"'
+        return_value = os.system('vivado_hls -f build_prj.tcl "reset={reset} csim={csim} synth={synth} cosim={cosim} validation={validation} export={export} vsynth={vsynth}"'
             .format(reset=reset, csim=csim, synth=synth, cosim=cosim, validation=validation, export=export, vsynth=vsynth))
         os.chdir(curr_dir)
 
-        return parse_vivado_report(self.config.get_output_dir())
+        return parse_vivado_report(self.config.get_output_dir(), return_value)
 
