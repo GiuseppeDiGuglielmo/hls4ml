@@ -50,6 +50,8 @@ register_flow(
         'fuse_batch_normalization',
         'replace_multidimensional_dense_with_conv',
         'set_precision_concat',
+        'propagate_dense_precision',
+        'propagate_conv_precision'
     ],
     requires=['convert'],
 )
